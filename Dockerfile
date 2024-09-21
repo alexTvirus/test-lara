@@ -1,5 +1,5 @@
 FROM debian:12.6
-RUN apt upate -y
+RUN apt update -y
 RUN apt upgrade -y
 RUN apt install -y php apache2
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
