@@ -7,4 +7,7 @@ RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN ls
+RUN wget https://nodejs.org/dist/v20.17.0/node-v20.17.0-linux-x64.tar.xz
+RUN tar -xf node-v20.17.0-linux-x64.tar.xz
+RUN ls
