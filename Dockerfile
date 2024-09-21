@@ -11,5 +11,5 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN ls
 RUN wget https://nodejs.org/dist/v20.17.0/node-v20.17.0-linux-x64.tar.xz
 RUN ls
-RUN tar -xf node-v20.17.0-linux-x64.tar.xz
+RUN tar -xf 'node-v20.17.0-linux-x64.tar.xz'
 RUN ls
