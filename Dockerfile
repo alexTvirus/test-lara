@@ -9,8 +9,8 @@ RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
 RUN curl -fsSL https://fnm.vercel.app/install -o install.sh
+RUN chmod 777 install.sh
 RUN ./install.sh
-RUN chmod 777 install
 RUN source ~/.bashrc
 RUN fnm use --install-if-missing 20
 RUN node -v # should print `v20.17.0`
