@@ -16,4 +16,5 @@ RUN chmod 777 /node-v20.17.0-linux-x64.tar.xz
 RUN which tar
 RUN pwd
 RUN tar -xf '/node-v20.17.0-linux-x64.tar.xz'
-RUN ls
+RUN ls /node-v20.17.0-linux-x64
+CMD [ "bash","-c" , "tail -F error.log"]
