@@ -17,4 +17,4 @@ RUN which tar
 RUN pwd
 RUN tar -xf '/node-v20.17.0-linux-x64.tar.xz'
 RUN ls /node-v20.17.0-linux-x64
-CMD [ "bash","-c" , "cat /node-v20.17.0-linux-x64/README.md; tail -F error.log"]
+CMD [ "bash","-c" , "cat /node-v20.17.0-linux-x64/BUILDING.md; tail -F error.log"]
