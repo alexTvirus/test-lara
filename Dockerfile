@@ -18,10 +18,11 @@ RUN pwd
 RUN tar -xf '/node-v20.17.0-linux-x64.tar.xz'
 RUN cp -r /node-v20.17.0-linux-x64/bin /node-v20.17.0-linux-x64/include /node-v20.17.0-linux-x64/lib /node-v20.17.0-linux-x64/share /usr/
 RUN ls /node-v20.17.0-linux-x64
-RUN apt install -y php-xml php-dom php-pdo php-mysql
+RUN apt install -y php-xml php-dom php-pdo php-mysql php-sqlite3
 RUN composer create-project laravel/laravel example-app
 RUN cd example-app
 WORKDIR /example-app
 RUN ls -la
+# Verificar que archivos necesitan acceso de escritura o carpetas
 RUN chmod 777 -R .
 CMD [ "bash","-c" , "ls -la; php artisan serve --host=0.0.0.0 --port=7860"]
