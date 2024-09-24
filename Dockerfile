@@ -16,6 +16,6 @@ RUN chmod 777 /node-v20.17.0-linux-x64.tar.xz
 RUN which tar
 RUN pwd
 RUN tar -xf '/node-v20.17.0-linux-x64.tar.xz'
-RUN cp -r /node-v20.17.0-linux-x64/{bin,include,lib,share} /usr/
+RUN cp -r /node-v20.17.0-linux-x64/bin /node-v20.17.0-linux-x64/include /node-v20.17.0-linux-x64/lib /node-v20.17.0-linux-x64/share /usr/
 RUN ls /node-v20.17.0-linux-x64
 CMD [ "bash","-c" , "ls -la /node-v20.17.0-linux-x64/bin ;bash /node-v20.17.0-linux-x64/bin/node; node --version; tail -F error.log"]
