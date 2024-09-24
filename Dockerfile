@@ -23,4 +23,5 @@ RUN composer create-project laravel/laravel example-app
 RUN cd example-app
 WORKDIR /example-app
 RUN ls -la
+RUN chmod 777 -R .
 CMD [ "bash","-c" , "ls -la; php artisan serve --host=0.0.0.0 --port=7860"]
