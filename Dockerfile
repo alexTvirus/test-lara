@@ -23,4 +23,4 @@ RUN composer create-project laravel/laravel example-app
 RUN cd example-app
 WORKDIR /example-app
 RUN ls -la
-CMD [ "bash","-c" , "ls -la /node-v20.17.0-linux-x64/bin ;bash /node-v20.17.0-linux-x64/bin/node; node --version; php artisan serve --host=0.0.0.0 --port=7860 ; tail -F error.log"]
+CMD [ "bash","-c" , "ls -la; php artisan serve --host=0.0.0.0 --port=7860"]
