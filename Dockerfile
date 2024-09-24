@@ -1,4 +1,4 @@
-FROM debian:12.6
+FROM ubuntu:latest
 
 RUN apt update -y
 RUN apt upgrade -y
