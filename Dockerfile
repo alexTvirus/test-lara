@@ -18,4 +18,8 @@ RUN pwd
 RUN tar -xf '/node-v20.17.0-linux-x64.tar.xz'
 RUN cp -r /node-v20.17.0-linux-x64/bin /node-v20.17.0-linux-x64/include /node-v20.17.0-linux-x64/lib /node-v20.17.0-linux-x64/share /usr/
 RUN ls /node-v20.17.0-linux-x64
-CMD [ "bash","-c" , "ls -la /node-v20.17.0-linux-x64/bin ;bash /node-v20.17.0-linux-x64/bin/node; node --version; tail -F error.log"]
+RUN composer create-project laravel/laravel example-app
+RUN cd example-app
+WORKDIR /example-app
+RUN ls -la
+CMD [ "bash","-c" , "ls -la /node-v20.17.0-linux-x64/bin ;bash /node-v20.17.0-linux-x64/bin/node; node --version; artisan serve; tail -F error.log"]
