@@ -2,8 +2,8 @@ FROM debian:12.6
 
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install -y php apache2 curl unzip wget xz-utils php-sqlite3
-
+RUN apt install -y php apache2 curl unzip wget xz-utils php-xml php-sqlite3
+# php-xml php-dom php-pdo php-mysql
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php composer-setup.php
