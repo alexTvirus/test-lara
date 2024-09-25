@@ -19,5 +19,7 @@ RUN composer create-project laravel/laravel example-app
 RUN cd example-app
 WORKDIR /example-app
 # Verificar que archivos necesitan acceso de escritura o carpetas
-RUN chmod 777 -R .
+RUN ls -la
+RUN chmod 777 -R /example-app/bootstrap/cache
+RUN chmod 777 -R /example-app/storage
 CMD [ "bash","-c" , "ls -la; php artisan serve --host=0.0.0.0 --port=7860"]
