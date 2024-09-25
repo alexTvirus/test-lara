@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 RUN apt update -y
 RUN apt upgrade -y
@@ -20,11 +20,11 @@ RUN cd example-app
 WORKDIR /example-app
 # Verificar que archivos necesitan acceso de escritura o carpetas
 RUN ls -la
-# RUN chmod 706 -R /example-app/bootstrap/cache
-# RUN chmod 760 -R /example-app/storage
-# RUN chmod 706 /example-app/database/database.sqlite
-RUN chown -R ubuntu:ubuntu /example-app
+RUN chmod 706 -R /example-app/bootstrap/cache
+RUN chmod 760 -R /example-app/storage
+RUN chmod 706 /example-app/database/database.sqlite
+# RUN chown -R ubuntu:ubuntu /example-app
 RUN apt install -y  mariadb-server sudo
-RUN usermod -aG sudo ubuntu
+#RUN usermod -aG sudo ubuntu
 RUN sudo service mariadb start; service --status-all
-CMD [ "bash","-c" , "id; whoami; ls -la database; service mariadb start; php artisan serve --host=0.0.0.0 --port=7860"]
+CMD [ "bash","-c" , "id; whoami; ls -la database; service mariadb start; php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1"]
