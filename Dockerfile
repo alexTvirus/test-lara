@@ -22,5 +22,5 @@ WORKDIR /example-app
 RUN ls -la
 RUN chmod 777 -R /example-app/bootstrap/cache
 RUN chmod 777 -R /example-app/storage
-RUN chmod 777 /example-app/database/database.sqlite
+RUN chmod 706 /example-app/database/database.sqlite
 CMD [ "bash","-c" , "ls -la database; php artisan serve --host=0.0.0.0 --port=7860"]
