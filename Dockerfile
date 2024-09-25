@@ -25,5 +25,5 @@ RUN ls -la
 # RUN chmod 706 /example-app/database/database.sqlite
 RUN chown -R ubuntu:ubuntu /example-app
 RUN apt install -y  mariadb-server sudo
-
-CMD [ "bash","-c" , "id; whoami; ls -la database; service mariadb start; php artisan serve --host=0.0.0.0 --port=7860"]
+RUN usermod -aG sudo ubuntu
+CMD [ "bash","-c" , "id; whoami; ls -la database; sudo service mariadb start; php artisan serve --host=0.0.0.0 --port=7860"]
