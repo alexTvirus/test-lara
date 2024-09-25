@@ -23,4 +23,4 @@ RUN ls -la
 RUN chmod 777 -R /example-app/bootstrap/cache
 RUN chmod 777 -R /example-app/storage
 RUN chmod 777 /
-CMD [ "bash","-c" , "ls -la; php artisan serve --host=0.0.0.0 --port=7860"]
+CMD [ "bash","-c" , "ls -la database; php artisan serve --host=0.0.0.0 --port=7860"]
