@@ -20,7 +20,7 @@ RUN cd example-app
 WORKDIR /example-app
 # Verificar que archivos necesitan acceso de escritura o carpetas
 RUN ls -la
-RUN chmod 777 -R /example-app/bootstrap/cache
-RUN chmod 777 -R /example-app/storage
+RUN chmod 706 -R /example-app/bootstrap/cache
+RUN chmod 706 -R /example-app/storage
 RUN chmod 706 /example-app/database/database.sqlite
 CMD [ "bash","-c" , "ls -la database; php artisan serve --host=0.0.0.0 --port=7860"]
