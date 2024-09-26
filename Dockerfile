@@ -28,4 +28,4 @@ RUN apt install -y  mariadb-server sudo
 RUN usermod -aG sudo ubuntu
 USER root:root
 RUN sudo service mariadb start; service --status-all
-CMD [ "bash","-c" , "id; whoami; ls -la database; sudo service mariadb start; php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1"]
+CMD [ "bash","-c" , "sudo su; id; whoami; ls -la database; service mariadb start; php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1"]
