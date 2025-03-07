@@ -24,6 +24,7 @@ RUN apt-get update && \
 COPY mysql.cnf /etc/mysql/my.cnf
 
 # Đặt mật khẩu root MySQL thông qua debconf
+
 ENV MYSQL_ROOT_PASSWORD sa
 ENV MYSQL_DATABASE=firecomic_db
 
