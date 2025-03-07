@@ -31,6 +31,7 @@ RUN sudo service mariadb start; service --status-all
 
 RUN chmod -R 777 /var/run
 RUN chmod -R 777 /run/mysqld
+RUN chmod -R 777 /var/lib/mysql
 
 EXPOSE 7860
 
