@@ -46,6 +46,8 @@ RUN usermod -aG sudo ubuntu
 USER root:root
 #RUN sudo service mariadb start; service --status-all
 
+ADD start.sh /start.sh
+
 RUN mkdir /docker-entrypoint-initdb.d
 
 ADD docker-entrypoint.sh /docker-entrypoint.sh
@@ -54,10 +56,12 @@ ADD docker-entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+RUN chmod +x /start.sh
+
 RUN chmod -R 777 /var/run
 RUN chmod -R 777 /run/mysqld
 RUN chmod -R 777 /var/lib/mysql
 
 EXPOSE 7860
 
-CMD [ "bash","-c" , "sudo su; id; whoami; ls -la database; /usr/local/bin/docker-entrypoint.sh mysqld > /dev/null 2>&1 ; php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1"]
+CMD ["/start.sh"]
