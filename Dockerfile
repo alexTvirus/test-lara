@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:24.04
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -28,4 +28,7 @@ RUN apt-get install -y  mariadb-server sudo
 RUN usermod -aG sudo ubuntu
 USER root:root
 RUN sudo service mariadb start; service --status-all
+
+EXPOSE 7860
+
 CMD [ "bash","-c" , "sudo su; id; whoami; ls -la database; service mariadb start; php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1"]
