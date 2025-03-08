@@ -56,6 +56,8 @@ RUN mkdir -p /run/php && \
 	mkdir -p /etc/nginx/sites-available/ && \
     chmod -R 777 /var/www/html && \
     chmod -R 777 /run/php
+	
+RUN	chmod -R 777 /var/lib && /var/log
 
 ENV nginx_vhost /etc/nginx/sites-available/default
 ENV php_conf /etc/php/8.3/fpm/php.ini
@@ -68,8 +70,8 @@ ADD index.php /var/www/html/
 
 # Enable php-fpm on nginx virtualhost configuration
 ADD default ${nginx_vhost}
-RUN sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' ${php_conf} && \
-    echo "\ndaemon off;" >> ${nginx_conf}
+#RUN sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' ${php_conf} && \
+#    echo "\ndaemon off;" >> ${nginx_conf}
 
 # php-xml php-dom php-pdo php-mysql
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
