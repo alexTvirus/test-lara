@@ -22,9 +22,9 @@ php-fpm8.3 -F &
 #php-fpm8.3 -t
 
 echo "Đang chờ PHP-FPM mở cổng 9000..."
-while ! netstat -tuln | grep ":9000 "; do
-  sleep 1
-done
+#while ! netstat -tuln | grep ":9000 "; do
+#  sleep 1
+#done
 
 echo "PHP-FPM đã mở cổng 9000."
 

@@ -58,7 +58,8 @@ RUN mkdir -p /run/php && \
 	mkdir -p /etc/nginx/sites-available/ && \
     chmod -R 777 /var/www/html && \
     chmod -R 777 /run/php && \
-	chown -R ubuntu:ubuntu /run/php 
+	chown -R ubuntu:ubuntu /run/php && \
+	chown -R ubuntu:ubuntu /var/www 
 
 	
 RUN	chmod -R 777 /var/lib
@@ -190,6 +191,9 @@ ADD firecomic_db.sql /docker-entrypoint-initdb.d/
 ADD docker-entrypoint.sh /usr/local/bin/
 
 USER root
+#RUN chown ubuntu:ubuntu /run/php/php8.3-fpm.sock 
+#RUN	chmod -R 777 /run/php/php8.3-fpm.sock
+
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /start.sh
