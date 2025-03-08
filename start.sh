@@ -9,7 +9,12 @@ echo "Starting fpm8..."
 php-fpm8.3 -F &
 #php-fpm8.3 -t
 
-sleep 5
+echo "Đang chờ PHP-FPM mở cổng 9000..."
+while ! netstat -tuln | grep ":9000 "; do
+  sleep 1
+done
+
+echo "PHP-FPM đã mở cổng 9000."
 
 echo "Starting nginx..."
 nginx -g "daemon off;" 
