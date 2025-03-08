@@ -10,7 +10,7 @@ php-fpm8.3 -F &
 #php-fpm8.3 -t
 
 echo "Starting nginx..."
-nginx -g "daemon off;" &
+nginx -g "daemon off;" 
 #nginx -t
 
 #sleep 20
