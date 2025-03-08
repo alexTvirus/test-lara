@@ -172,8 +172,14 @@ ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 ENV APP_KEY base64:qKieeboLsDmpW8qISpXunQoiPW2iyBr5/whnGIstu1A=	
 
+RUN	mkdir -p /var/firecomic 
 
+USER ubuntu
+COPY . /var/firecomic/
 
+USER root
+RUN chmod -R 777 /var/firecomic && \
+	chown -R ubuntu:ubuntu /var/firecomic
 
 #RUN composer create-project laravel/laravel example-app
 #RUN cd example-app
@@ -197,11 +203,6 @@ ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD firecomic_db.sql /docker-entrypoint-initdb.d/
 
 ADD docker-entrypoint.sh /usr/local/bin/
-
-USER ubuntu 
-COPY . /var/www/html/
-USER root
-RUN chown -R ubuntu:ubuntu /var/www/html
 
 USER root
 #RUN chown ubuntu:ubuntu /run/php/php8.3-fpm.sock 

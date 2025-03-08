@@ -4,18 +4,18 @@ echo "Current user: $(whoami) (UID: $(id -u))"
 
 #cp -r /home/. /var/www/html/
 
-cd /var/www/html
+cd /var/firecomic
 
 echo "Running composer"
-composer install --no-dev --working-dir=/var/www/html
+composer install --no-dev --working-dir=/var/firecomic
 
 echo "Caching config..."
-php /var/www/html/artisan config:cache
+cd /var/firecomic && php /var/firecomic/artisan config:cache
 
 echo "Caching routes..."
-php /var/www/html/artisan route:cache
+cd /var/firecomic && php /var/firecomic/artisan route:cache
 
-php /var/www/html/artisan key:generate
+cd /var/firecomic && php /var/firecomic/artisan key:generate
 
 echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &
