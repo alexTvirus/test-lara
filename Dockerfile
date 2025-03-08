@@ -189,16 +189,15 @@ ADD firecomic_db.sql /docker-entrypoint-initdb.d/
 
 ADD docker-entrypoint.sh /usr/local/bin/
 
+USER root
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /start.sh
-
+RUN chmod -R 777 /var/www
 RUN chmod -R 777 /var/run
 RUN chmod -R 777 /run/mysqld
 RUN chmod -R 777 /run/php
 RUN chmod -R 777 /var/lib/mysql
-
-USER root
 RUN	chmod -R 777 /var/log
 
 EXPOSE 7860

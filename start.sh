@@ -3,7 +3,7 @@
 echo "Current user: $(whoami) (UID: $(id -u))"
 
 
-cp -r /public /var/www/html/
+cp -r /example-app/. /var/www/html/
 
 echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &
