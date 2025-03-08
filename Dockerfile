@@ -122,7 +122,7 @@ RUN chown -R ubuntu:ubuntu /example-app
 #USER root:root
 #RUN sudo service mariadb start; service --status-all
 
-ADD index.php /var/www/html/
+ADD public /public
 
 ADD start.sh /start.sh
 
