@@ -70,7 +70,7 @@ ENV php_conf /etc/php/8.3/fpm/php.ini
 ENV nginx_conf /etc/nginx/nginx.conf
 
 
-ADD index.php /var/www/html/
+
 # ----------------------
 
 
@@ -121,6 +121,8 @@ RUN chown -R ubuntu:ubuntu /example-app
 #RUN usermod -aG sudo ubuntu
 #USER root:root
 #RUN sudo service mariadb start; service --status-all
+
+ADD public /var/www/html/
 
 ADD start.sh /start.sh
 
