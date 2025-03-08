@@ -13,8 +13,8 @@ echo "Starting nginx..."
 nginx -g "daemon off;" &
 #nginx -t
 
-sleep 20
+#sleep 20
 
-netstat -tulnp
+#netstat -tulnp
 
 #php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1
