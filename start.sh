@@ -2,10 +2,20 @@
 
 echo "Current user: $(whoami) (UID: $(id -u))"
 
+
 cp -r /public /var/www/html/
 
 echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &
+
+
+until mysqladmin ping -h"localhost" -uroot -psa --silent; do
+    echo "connect..."
+    sleep 2
+done
+
+mysql -uroot -psa firecomic_db < /docker-entrypoint-initdb.d/firecomic_db.sql
+
 
 echo "Starting fpm8..."
 php-fpm8.3 -F &

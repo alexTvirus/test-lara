@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y  apache2 curl unzip wget xz-utils net-tools procps
+RUN apt-get install -y  apache2 curl unzip wget xz-utils net-tools procps gnupg
 
 RUN apt-get install -y \
     php8.3 \
@@ -92,9 +92,64 @@ RUN mv composer.phar /usr/local/bin/composer
 #RUN cp -r /node-v20.17.0-linux-x64/bin /node-v20.17.0-linux-x64/include /node-v20.17.0-linux-x64/lib /node-v20.17.0-linux-x64/share /usr/
 
 
+ENV GOSU_VERSION 1.17
+RUN set -eux; \
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends  ca-certificates wget; \
+	rm -rf /var/lib/apt/lists/*; \
+	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
+	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
+	export GNUPGHOME="$(mktemp -d)"; \
+	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+	apt-mark auto '.*' > /dev/null; \
+	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	chmod +x /usr/local/bin/gosu; \
+	gosu --version; \
+	gosu nobody true
+
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		bzip2 \
+		openssl \
+# FATAL ERROR: please install the following Perl modules before executing /usr/local/mysql/scripts/mysql_install_db:
+# File::Basename
+# File::Copy
+# Sys::Hostname
+# Data::Dumper
+		perl \
+		xz-utils \
+		zstd \
+	; \
+	rm -rf /var/lib/apt/lists/*
+
+RUN set -eux; \
+# pub   rsa4096 2023-10-23 [SC] [expires: 2025-10-22]
+#       BCA4 3417 C3B4 85DD 128E  C6D4 B7B3 B788 A8D3 785C
+# uid           [ unknown] MySQL Release Engineering <mysql-build@oss.oracle.com>
+# sub   rsa4096 2023-10-23 [E] [expires: 2025-10-22]
+	key='BCA4 3417 C3B4 85DD 128E C6D4 B7B3 B788 A8D3 785C'; \
+	export GNUPGHOME="$(mktemp -d)"; \
+	gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "$key"; \
+	mkdir -p /etc/apt/keyrings; \
+	gpg --batch --export "$key" > /etc/apt/keyrings/mysql.gpg; \
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME"
+
 # Cập nhật và cài đặt MySQL
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+    
+RUN rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld \
+            && chmod 1777 /var/run/mysqld /var/lib/mysql
+            
+VOLUME /var/lib/mysql
 
 # Sao chép file cấu hình MySQL
 COPY mysql.cnf /etc/mysql/my.cnf
@@ -129,6 +184,8 @@ ADD start.sh /start.sh
 RUN mkdir /docker-entrypoint-initdb.d
 
 ADD docker-entrypoint.sh /docker-entrypoint.sh
+
+ADD firecomic_db.sql /docker-entrypoint-initdb.d/
 
 ADD docker-entrypoint.sh /usr/local/bin/
 
