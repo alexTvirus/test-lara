@@ -2,17 +2,20 @@
 
 echo "Current user: $(whoami) (UID: $(id -u))"
 
+#cp -r /home/. /var/www/html/
+
+cd /var/www/html
+
 echo "Running composer"
 composer install --no-dev --working-dir=/var/www/html
 
 echo "Caching config..."
-php artisan config:cache
+php /var/www/html/artisan config:cache
 
 echo "Caching routes..."
-php artisan route:cache
+php /var/www/html/artisan route:cache
 
-
-#cp -r /example-app/. /var/www/html/
+php /var/www/html/artisan key:generate
 
 echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &

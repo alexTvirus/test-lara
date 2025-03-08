@@ -54,14 +54,14 @@ RUN apt-get install -y nginx && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/php && \
-	mkdir -p /var/www/html/ && \
+	mkdir -p /var/www/html && \
 	mkdir -p /etc/nginx/sites-available/ && \
     chmod -R 777 /var/www/html && \
     chmod -R 777 /run/php && \
 	chown -R ubuntu:ubuntu /run/php && \
-	chown -R ubuntu:ubuntu /var/www 
+	chown -R ubuntu:ubuntu /var/www/html 
 
-	
+
 RUN	chmod -R 777 /var/lib
 
 
@@ -171,14 +171,13 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 ENV APP_KEY base64:qKieeboLsDmpW8qISpXunQoiPW2iyBr5/whnGIstu1A=	
-	
-ADD . /var/www/html/
+
+
 
 
 #RUN composer create-project laravel/laravel example-app
 #RUN cd example-app
 #WORKDIR /example-app
-# Verificar que archivos necesitan acceso de escritura o carpetas
 #RUN ls -la
 #RUN chmod 706 -R /example-app/bootstrap/cache
 #RUN chmod 760 -R /example-app/storage
@@ -198,6 +197,11 @@ ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD firecomic_db.sql /docker-entrypoint-initdb.d/
 
 ADD docker-entrypoint.sh /usr/local/bin/
+
+USER ubuntu 
+COPY . /var/www/html/
+USER root
+RUN chown -R ubuntu:ubuntu /var/www/html
 
 USER root
 #RUN chown ubuntu:ubuntu /run/php/php8.3-fpm.sock 
