@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "Current user: $(whoami) (UID: $(id -u))"
+
 echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &
 
@@ -13,4 +15,4 @@ nginx -g "daemon off;" &
 
 
 
-#php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1
+php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1

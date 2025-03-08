@@ -116,8 +116,8 @@ RUN chmod 760 -R /example-app/storage
 RUN chmod 706 /example-app/database/database.sqlite
 RUN chown -R ubuntu:ubuntu /example-app
 #RUN apt-get install -y  mariadb-server sudo
-RUN usermod -aG sudo ubuntu
-USER root:root
+#RUN usermod -aG sudo ubuntu
+#USER root:root
 #RUN sudo service mariadb start; service --status-all
 
 ADD start.sh /start.sh
@@ -140,5 +140,6 @@ USER root
 RUN	chmod -R 777 /var/log
 
 EXPOSE 7860
+
 
 CMD ["/start.sh"]
