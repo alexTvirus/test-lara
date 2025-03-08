@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y  apache2 curl unzip wget xz-utils
+RUN apt-get install -y  apache2 curl unzip wget xz-utils net-tools procps
 
 RUN apt-get install -y \
     php8.3 \
