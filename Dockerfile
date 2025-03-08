@@ -93,6 +93,8 @@ RUN mv composer.phar /usr/local/bin/composer
 #RUN cp -r /node-v20.17.0-linux-x64/bin /node-v20.17.0-linux-x64/include /node-v20.17.0-linux-x64/lib /node-v20.17.0-linux-x64/share /usr/
 
 
+#---------------------
+
 ENV GOSU_VERSION 1.17
 RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -163,22 +165,29 @@ ENV MYSQL_DATABASE=firecomic_db
 RUN echo "mysql-server mysql-server/root_password password sa" | debconf-set-selections && \
     echo "mysql-server mysql-server/root_password_again password sa" | debconf-set-selections
 	
+#---------------------
+	
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
+ENV APP_KEY base64:qKieeboLsDmpW8qISpXunQoiPW2iyBr5/whnGIstu1A=	
+	
+ADD . /var/www/html/
 
-RUN composer create-project laravel/laravel example-app
-RUN cd example-app
-WORKDIR /example-app
+
+#RUN composer create-project laravel/laravel example-app
+#RUN cd example-app
+#WORKDIR /example-app
 # Verificar que archivos necesitan acceso de escritura o carpetas
-RUN ls -la
-RUN chmod 706 -R /example-app/bootstrap/cache
-RUN chmod 760 -R /example-app/storage
-RUN chmod 706 /example-app/database/database.sqlite
-RUN chown -R ubuntu:ubuntu /example-app
+#RUN ls -la
+#RUN chmod 706 -R /example-app/bootstrap/cache
+#RUN chmod 760 -R /example-app/storage
+#RUN chmod 706 /example-app/database/database.sqlite
+#RUN chown -R ubuntu:ubuntu /example-app
 #RUN apt-get install -y  mariadb-server sudo
 #RUN usermod -aG sudo ubuntu
 #USER root:root
 #RUN sudo service mariadb start; service --status-all
-
-ADD public /public
 
 ADD start.sh /start.sh
 
