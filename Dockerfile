@@ -23,7 +23,7 @@ RUN apt-get install -y \
 
 ENV php_conf /etc/php/8.3/fpm/php-fpm.conf
 ENV fpm_conf /etc/php/8.3/fpm/pool.d/www.conf
-ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
+ENV php_vars /etc/php/8.3/fpm/conf.d/docker-vars.ini
 
 RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
