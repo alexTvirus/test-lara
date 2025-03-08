@@ -9,6 +9,8 @@ echo "Starting fpm8..."
 php-fpm8.3 -F &
 #php-fpm8.3 -t
 
+sleep 5
+
 echo "Starting nginx..."
 nginx -g "daemon off;" 
 #nginx -t
