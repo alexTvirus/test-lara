@@ -5,20 +5,71 @@ RUN apt-get upgrade -y
 RUN apt-get install -y  apache2 curl unzip wget xz-utils
 
 RUN apt-get install -y \
-    php8.0 \
-    php8.0-fpm \
-    php8.0-cli \
-    php8.0-common \
-    php8.0-mbstring \
-    php8.0-xml \
-    php8.0-mysql \
-    php8.0-pgsql \
-    php8.0-sqlite3 \
-    php8.0-zip \
-    php8.0-curl \
-    php8.0-gd \
-    php8.0-intl
+    php8.3 \
+    php8.3-fpm \
+    php8.3-cli \
+    php8.3-common \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-mysql \
+    php8.3-pgsql \
+    php8.3-sqlite3 \
+    php8.3-zip \
+    php8.3-curl \
+    php8.3-gd \
+    php8.3-intl
 
+#-------- php-fpm
+
+ENV php_conf /etc/php/8.3/fpm/php-fpm.conf
+ENV fpm_conf /etc/php/8.3/fpm/pool.d/www.conf
+ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
+
+RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
+    echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
+    echo "post_max_size = 100M"  >> ${php_vars} &&\
+    echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
+    echo "memory_limit = 128M"  >> ${php_vars} && \
+    sed -i \
+        -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
+        -e "s/pm.max_children = 5/pm.max_children = 4/g" \
+        -e "s/pm.start_servers = 2/pm.start_servers = 3/g" \
+        -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" \
+        -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" \
+        -e "s/;pm.max_requests = 500/pm.max_requests = 200/g" \
+        -e "s/user = www-data/user = nginx/g" \
+        -e "s/group = www-data/group = nginx/g" \
+        -e "s/;listen.mode = 0660/listen.mode = 0666/g" \
+        -e "s/;listen.owner = www-data/listen.owner = nginx/g" \
+        -e "s/;listen.group = www-data/listen.group = nginx/g" \
+        -e "s/listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm.sock/g" \
+        -e "s/^;clear_env = no$/clear_env = no/" \
+        ${fpm_conf}
+
+
+# ------------ ngnix
+RUN apt-get install -y nginx && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /run/php && \
+	mkdir -p /var/www/html/ && \
+	mkdir -p /etc/nginx/sites-available/ && \
+    chmod -R 777 /var/www/html && \
+    chmod -R 777 /run/php
+
+ENV nginx_vhost /etc/nginx/sites-available/default
+ENV php_conf /etc/php/8.3/fpm/php.ini
+ENV nginx_conf /etc/nginx/nginx.conf
+
+
+ADD index.php /var/www/html/
+# ----------------------
+
+
+# Enable php-fpm on nginx virtualhost configuration
+ADD default ${nginx_vhost}
+RUN sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' ${php_conf} && \
+    echo "\ndaemon off;" >> ${nginx_conf}
 
 # php-xml php-dom php-pdo php-mysql
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
