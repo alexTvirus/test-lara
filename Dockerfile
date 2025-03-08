@@ -2,7 +2,24 @@ FROM ubuntu:24.04
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y php apache2 curl unzip wget xz-utils php-xml php-sqlite3
+RUN apt-get install -y  apache2 curl unzip wget xz-utils
+
+RUN apt-get install -y \
+    php8.0 \
+    php8.0-fpm \
+    php8.0-cli \
+    php8.0-common \
+    php8.0-mbstring \
+    php8.0-xml \
+    php8.0-mysql \
+    php8.0-pgsql \
+    php8.0-sqlite3 \
+    php8.0-zip \
+    php8.0-curl \
+    php8.0-gd \
+    php8.0-intl
+
+
 # php-xml php-dom php-pdo php-mysql
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
