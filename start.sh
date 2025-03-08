@@ -13,6 +13,6 @@ echo "Starting nginx..."
 nginx -g "daemon off;" &
 #nginx -t
 
+echo "Current user: $(whoami) (UID: $(id -u))"
 
-
-php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1
+#php artisan serve --host=0.0.0.0 --port=7860 > /dev/null 2>&1
