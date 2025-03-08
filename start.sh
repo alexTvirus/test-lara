@@ -4,12 +4,12 @@ echo "Starting mysqld..."
 /usr/local/bin/docker-entrypoint.sh mysqld &
 
 echo "Starting fpm8..."
-#php-fpm8.3 -F &
-php-fpm8.3 -t
+php-fpm8.3 -F &
+#php-fpm8.3 -t
 
 echo "Starting nginx..."
-#nginx -g "daemon off;" &
-nginx -t
+nginx -g "daemon off;" &
+#nginx -t
 
 
 
