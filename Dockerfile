@@ -57,7 +57,9 @@ RUN mkdir -p /run/php && \
     chmod -R 777 /var/www/html && \
     chmod -R 777 /run/php
 	
-RUN	chmod -R 777 /var/lib && /var/log
+RUN	chmod -R 777 /var/lib
+
+
 
 ENV nginx_vhost /etc/nginx/sites-available/default
 ENV php_conf /etc/php/8.3/fpm/php.ini
@@ -131,6 +133,9 @@ RUN chmod +x /start.sh
 RUN chmod -R 777 /var/run
 RUN chmod -R 777 /run/mysqld
 RUN chmod -R 777 /var/lib/mysql
+
+USER root
+RUN	chmod -R 777 /var/log
 
 EXPOSE 7860
 
