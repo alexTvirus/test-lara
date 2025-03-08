@@ -58,9 +58,8 @@ RUN mkdir -p /run/php && \
 	mkdir -p /etc/nginx/sites-available/ && \
     chmod -R 777 /var/www/html && \
     chmod -R 777 /run/php && \
-	chown -R ubuntu:ubuntu /run/php && \
-	chown -R ubuntu:ubuntu /var/lib/mysql && \
-	chown -R ubuntu:ubuntu /var/lib/mysql && \
+	chown -R ubuntu:ubuntu /run/php 
+
 	
 RUN	chmod -R 777 /var/lib
 
